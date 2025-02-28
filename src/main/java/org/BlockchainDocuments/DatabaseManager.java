@@ -1,7 +1,6 @@
-package org.example;
+package org.BlockchainDocuments;
 
 import java.sql.*;
-import java.io.*;
 
 public class DatabaseManager {
     private final String url;
@@ -89,23 +88,22 @@ public class DatabaseManager {
 
     public static class DatabaseDebug{
         private static void exec(String SQL) throws SQLException {
-            DatabaseManager dbM = new DatabaseManager("jdbc:mariadb://localhost:3306/Benutzerdaten","root","PW");
+            DatabaseManager dbM = new DatabaseManager(Main.url,Main.user,Main.password);
             dbM.executeStatement(new DatabaseManager.DatabaseQuery(SQL,false));
         }
 
         static void dropTable() throws SQLException {
-            exec("DROP TABLE Benutzer");
+            exec("DROP TABLE Users");
         }
 
         static void createTable() throws SQLException {
             exec("""
-               CREATE TABLE Benutzer(
-               ID int NOT NULL AUTO_INCREMENT,
-               Benutzername varchar(255) NOT NULL,
-               PasswortHash varchar(255) NOT NULL,
+               CREATE TABLE Users(
+               Username varchar(255) NOT NULL,
+               PasswordHash varchar(64) NOT NULL,
                PublicKey varchar(255) NOT NULL,
                EPrivateKey varchar(255) NOT NULL,
-               PRIMARY KEY (ID)
+               PRIMARY KEY (Username)
                );
                """);
         }
